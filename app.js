@@ -1,10 +1,34 @@
-/*
-GAME RULES:
+//************************************/
+// The Pig Game
+// by Liviu Preda 2019
+// HTML & CSS ©Jonas Schmedtman
+//************************************/
 
-- The game has 2 players, playing in rounds
-- In each turn, a player rolls a dice as many times as he whishes. Each result get added to his ROUND score
-- BUT, if the player rolls a 1, all his ROUND score gets lost. After that, it's the next player's turn
-- The player can choose to 'Hold', which means that his ROUND score gets added to his GLBAL score. After that, it's the next player's turn
-- The first player to reach 100 points on GLOBAL score wins the game
+let scores, roundScore, currentPlayer;
 
-*/
+scores = [0, 0]; // Array for P1 and P2 scores
+roundScore = 0;
+currentPlayer = 0; // P1 = 0 ; P2 = 1
+
+// Setter; sets the textContent value
+document.getElementById('current-' + currentPlayer).textContent = dice;
+
+// document.getElementById('current-' + currentPlayer).innerHTML = `
+//   <em>${dice}</em>
+// `;
+
+// Getter; gets the round score textContent value
+let x = document.getElementById('score-0').textContent;
+console.log(x);
+
+// Hide dice image at the beginning
+document.querySelector('.dice').style.display = 'none';
+
+// Roll dice
+document.querySelector('.btn-roll').addEventListener('click', rollDice);
+
+function rollDice() {
+  const dice = Math.floor(Math.random() * 6) + 1; // Random integer between 1 and 6
+  // Display dice roll
+  const diceToDOM = (document.querySelector('.dice').style.display = 'block');
+}
