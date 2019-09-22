@@ -5,26 +5,39 @@
 //************************************/
 
 let totalScores, currScore, currPlayer;
+appInit();
 
-// totalScores[0] P1; totalScores[1] P2
-totalScores = [0, 0]; // Array for P1 and P2 total scores
-currScore = 0;
-currPlayer = 0; // P1 = 0 ; P2 = 1
-
-// Hide dice image at the beginning
-document.querySelector('.dice').style.display = 'none';
-
-// Reset the current and total scores for P1 and P2
-document.getElementById('score-0').textContent = '0';
-document.getElementById('score-1').textContent = '0';
-document.getElementById('current-0').textContent = '0';
-document.getElementById('current-1').textContent = '0';
+// -- New Game ; Init
+document.querySelector('.btn-new').addEventListener('click', appInit);
 
 // -- Roll dice
 document.querySelector('.btn-roll').addEventListener('click', rollDice);
 
 // -- Hold button
 document.querySelector('.btn-hold').addEventListener('click', holdRoll);
+
+function appInit() {
+  // totalScores[0] P1; totalScores[1] P2
+  totalScores = [0, 0]; // Array for P1 and P2 total scores
+  currScore = 0;
+  currPlayer = 0; // P1 = 0 ; P2 = 1
+
+  // Hide dice image at the beginning
+  document.querySelector('.dice').style.display = 'none';
+
+  // Reset the current and total scores for P1 and P2
+  document.getElementById('score-0').textContent = '0';
+  document.getElementById('score-1').textContent = '0';
+  document.getElementById('current-0').textContent = '0';
+  document.getElementById('current-1').textContent = '0';
+  document.getElementById('name-0').textContent = 'Player 1';
+  document.getElementById('name-1').textContent = 'Player 2';
+  document.querySelector('.player-0-panel').classList.remove('winner');
+  document.querySelector('.player-1-panel').classList.remove('winner');
+  document.querySelector('.player-0-panel').classList.remove('active');
+  document.querySelector('.player-0-panel').classList.add('active');
+  document.querySelector('.player-1-panel').classList.remove('active');
+}
 
 function rollDice() {
   const dice = Math.floor(Math.random() * 6) + 1; // Random integer between 1 and 6
