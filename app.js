@@ -4,7 +4,8 @@
 // HTML & CSS ©Jonas Schmedtman
 //************************************/
 
-let totalScores, currScore, currPlayer;
+let totalScores, currScore, currPlayer, gamePlaying;
+gamePlaying = true; // state variable; becomes false once Winner => game over
 appInit();
 
 // -- New Game ; Init
@@ -21,6 +22,7 @@ function appInit() {
   totalScores = [0, 0]; // Array for P1 and P2 total scores
   currScore = 0;
   currPlayer = 0; // P1 = 0 ; P2 = 1
+  gamePlaying = true;
 
   // Hide dice image at the beginning
   document.querySelector('.dice').style.display = 'none';
@@ -40,41 +42,46 @@ function appInit() {
 }
 
 function rollDice() {
-  const dice = Math.floor(Math.random() * 6) + 1; // Random integer between 1 and 6
-  // Display dice roll
-  const diceDOM = document.querySelector('.dice');
-  diceDOM.style.display = 'block';
-  diceDOM.src = `dice-${dice}.png`;
+  if (gamePlaying) {
+    const dice = Math.floor(Math.random() * 6) + 1; // Random integer between 1 and 6
+    // Display dice roll
+    const diceDOM = document.querySelector('.dice');
+    diceDOM.style.display = 'block';
+    diceDOM.src = `dice-${dice}.png`;
 
-  // Update current score only IF the rolled number != 1
-  if (dice !== 1) {
-    // Display & Add current score to current score
-    currScore += dice;
-    document.getElementById('current-' + currPlayer).textContent = currScore;
-  } else {
-    // Switch player
-    switchPlayer();
+    // Update current score only IF the rolled number != 1
+    if (dice !== 1) {
+      // Display & Add current score to current score
+      currScore += dice;
+      document.getElementById('current-' + currPlayer).textContent = currScore;
+    } else {
+      // Switch player
+      switchPlayer();
+    }
   }
 }
 
 function holdRoll() {
-  // Add currScore to totalScore
-  totalScores[currPlayer] += currScore;
-  // Update UI
-  document.getElementById('score-' + currPlayer).textContent =
-    totalScores[currPlayer];
-  // Check if currPlayer won the game
-  if (totalScores[currPlayer] >= 15) {
-    document.getElementById('name-' + currPlayer).textContent = 'Winner!';
-    document
-      .querySelector('.player-' + currPlayer + '-panel')
-      .classList.add('winner');
-    document
-      .querySelector('.player-' + currPlayer + '-panel')
-      .classList.remove('active');
+  if (gamePlaying) {
+    // Add currScore to totalScore
+    totalScores[currPlayer] += currScore;
+    // Update UI
+    document.getElementById('score-' + currPlayer).textContent =
+      totalScores[currPlayer];
+    // Check if currPlayer won the game
+    if (totalScores[currPlayer] >= 100) {
+      document.getElementById('name-' + currPlayer).textContent = 'Winner!';
+      document
+        .querySelector('.player-' + currPlayer + '-panel')
+        .classList.add('winner');
+      document
+        .querySelector('.player-' + currPlayer + '-panel')
+        .classList.remove('active');
 
-    document.querySelector('.dice').style.display = 'none';
-  } else switchPlayer();
+      document.querySelector('.dice').style.display = 'none';
+      gamePlaying = false;
+    } else switchPlayer();
+  }
 }
 
 function switchPlayer() {
